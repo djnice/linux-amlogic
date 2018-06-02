@@ -1967,7 +1967,7 @@ next:
 		hd_set_reg_bits(P_VPU_HDMI_SETTING, 0, 4, 4);
 		hd_set_reg_bits(P_VPU_HDMI_SETTING, 1, 8, 1);
 	}
-	switch (hdev->cur_video_param->color_depth) {
+	switch (hdev->para->cd) {
 	case COLORDEPTH_30B:
 	case COLORDEPTH_36B:
 	case COLORDEPTH_48B:
@@ -1986,7 +1986,7 @@ next:
 			hd_set_reg_bits(P_VPU_HDMI_DITH_CNTL, hs_flag, 2, 2);
                 } else {
                         hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 0, 4, 1);
-                        hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 1, 10, 1);
+                        hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 0, 10, 1);
 		}
 		break;
 	default:
@@ -2000,7 +2000,7 @@ next:
 			/* set hsync/vsync as default 0 */
 			hd_set_reg_bits(P_VPU_HDMI_DITH_CNTL, 0, 2, 2);
 		} else {
-                       hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 0, 4, 1);
+                       hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 1, 4, 1);
                        hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, 1, 10, 1);
                 }
 		break;
@@ -3049,17 +3049,17 @@ static void hdmitx_debug(struct hdmitx_dev *hdev, const char *buf)
 		return;
 	} else if (strncmp(tmpbuf, "dither", 6) == 0) {
 		int dither = 0;
-		if (tmpbuf[7] == '1')
+		if (tmpbuf[6] == '1')
 			dither = 1;
 		hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, dither, 4, 1);
 		pr_info("hdmitx: adjust dither = %d\n", dither);
 		return;
         } else if (strncmp(tmpbuf, "round", 5) == 0) {
                 int round = 0;
-                if (tmpbuf[6] == '1')
+                if (tmpbuf[5] == '1')
                         round = 1;
 		hd_set_reg_bits(P_VPU_HDMI_FMT_CTRL, round, 10, 1);
-//                pr_info("hdmitx: adjust round = %d\n", round);
+                pr_info("hdmitx: adjust round = %d\n", round);
 		return;
 	} else if (strncmp(tmpbuf, "do2020", 6) == 0) {
 		pr_info("hdmitx: BT2020 AVI ON\n");
