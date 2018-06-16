@@ -1254,11 +1254,7 @@ static struct fb_ops osd_ops = {
 	.fb_fillrect    = cfb_fillrect,
 	.fb_copyarea    = cfb_copyarea,
 	.fb_imageblit   = cfb_imageblit,
-#ifdef CONFIG_FB_SOFT_CURSOR
 	.fb_cursor      = soft_cursor,
-#elif defined(CONFIG_FB_OSD2_CURSOR)
-	.fb_cursor      = osd_cursor,
-#endif
 	.fb_ioctl       = osd_ioctl,
 #ifdef CONFIG_COMPAT
 	.fb_compat_ioctl = osd_compat_ioctl,
@@ -2224,9 +2220,9 @@ static struct device_attribute osd_attrs[] = {
 			show_free_scale, store_free_scale),
 	__ATTR(scale_axis, S_IRUGO | S_IWUSR,
 			show_scale_axis, store_scale_axis),
-	__ATTR(scale_width, S_IRUGO | S_IRUSR,
+	__ATTR(scale_width, S_IWUSR | S_IRUGO,
 			show_scale_width, NULL),
-	__ATTR(scale_height, S_IRUGO | S_IRUSR,
+	__ATTR(scale_height, S_IWUSR | S_IRUGO,
 			show_scale_height, NULL),
 	__ATTR(color_key, S_IRUGO | S_IWUSR,
 			show_color_key, store_color_key),
